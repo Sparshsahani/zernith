@@ -10,6 +10,7 @@ import {
   IconChevronDown,
   IconArrowRight,
 } from "@tabler/icons-react";
+import { TbCategoryPlus } from "react-icons/tb";
 
 const categories = [
   { name: "Agarbatti", href: "/category/agarbatti" },
@@ -51,21 +52,15 @@ export default function Header() {
       lastScrollY.current = currentY;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [mobileMenuOpen]);
 
   return (
     <>
-      <header className={`sticky top-0 z-50 bg-[var(--gray-100)] backdrop-blur-md border-b border-gray-800 transform transition-transform duration-300 ${hideOnScroll ? '-translate-y-full' : 'translate-y-0'}`}>
-        {/* Top Bar */}
-        <div className="bg-[var(--primary)] text-black py-4">
-          <div className="container flex justify-between items-center text-sm font-semibold px-6">
-            <p>Free Shipping on Orders Above ₹999</p>
-            <p className="hidden sm:block">Contact: +91 1234567890</p>
-          </div>
-        </div>
-
+      <header
+        className={`sticky top-0 z-50 bg-[var(--gray-100)] backdrop-blur-md border-b border-gray-800 transform transition-transform duration-300 ${hideOnScroll ? "-translate-y-full" : "translate-y-0"}`}
+      >
         {/* Main Header */}
         <div className="container px-6">
           <div className="flex items-center justify-between py-3 gap-8">
@@ -82,55 +77,33 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-10">
-              <Link href="/" className="nav-link">
-                Home
-              </Link>
-
-              {/* Category Dropdown */}
-              <div
-                className="relative"
-                onMouseEnter={() => setCategoryDropdownOpen(true)}
-                onMouseLeave={() => setCategoryDropdownOpen(false)}
-              >
-                <button className="nav-link flex items-center gap-2">
-                  Category
-                  <IconChevronDown
-                    size={16}
-                    className={`transition-transform ${categoryDropdownOpen ? "rotate-180" : ""}`}
-                  />
+            <div>
+              {/* Search Box */}
+              <div className="relative hidden lg:block">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="px-4 py-2 w-100 bg-white placeholder:text-black rounded-full  focus:border-[var(--primary)] focus:shadow-lg focus:shadow-[var(--primary)]/50 transition-all duration-300"
+                />
+                <button className="absolute top-0 right-0 p-3 hover:bg-gray-800 rounded-full transition-colors text-black">
+                  <IconArrowRight size={20} />
                 </button>
-
-                {categoryDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-4 w-64 bg-[var(--gray-100)] rounded-xl shadow-2xl border border-gray-700 py-3 animate-fadeIn">
-                    <div className="grid grid-cols-1">
-                      {categories.map((category) => (
-                        <Link
-                          key={category.name}
-                          href={category.href}
-                          className="px-6 py-3 hover:bg-black/30 transition-colors duration-200 group"
-                        >
-                          <span className="font-semibold text-white group-hover:text-[var(--primary)] text-sm">
-                            {category.name}
-                          </span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
-
-              <Link href="/about" className="nav-link">
-                About
-              </Link>
-              <Link href="/contact" className="nav-link">
-                Contact
-              </Link>
-            </nav>
+            </div>
 
             {/* Right Side Actions */}
             <div className="flex items-center gap-6">
+              {/* Cart Button */}
+              <Link
+                href="/cart"
+                className="relative flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-black rounded-full font-bold hover:shadow-xl hover:shadow-[var(--primary)]/50 hover:scale-105 transition-all duration-300"
+              >
+                <IconShoppingCart size={20} />
+                {/* <span className="hidden md:inline">Cart</span> */}
+                <span className="absolute -top-2 -right-2 w-6 h-6 bg-[var(--primary)] text-black text-xs rounded-full flex items-center justify-center font-bold shadow-lg">
+                  0
+                </span>
+              </Link>
               {/* Login Button */}
               <Link
                 href="/login"
@@ -139,19 +112,6 @@ export default function Header() {
                 <IconUser size={20} />
                 <span className="hidden md:inline font-semibold">Login</span>
               </Link>
-
-              {/* Cart Button */}
-              <Link
-                href="/cart"
-                className="relative flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] text-black rounded-full font-bold hover:shadow-xl hover:shadow-[var(--primary)]/50 hover:scale-105 transition-all duration-300"
-              >
-                <IconShoppingCart size={20} />
-                <span className="hidden md:inline">Cart</span>
-                <span className="absolute -top-2 -right-2 w-6 h-6 bg-[var(--primary)] text-black text-xs rounded-full flex items-center justify-center font-bold shadow-lg">
-                  0
-                </span>
-              </Link>
-
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -162,14 +122,64 @@ export default function Header() {
             </div>
           </div>
         </div>
+        {/* Top Bar */}
+        <div className="bg-[var(--primary)] text-black py-4">
+          <div className="container flex justify-between items-center text-sm font-semibold px-6">
+            {/* Category Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setCategoryDropdownOpen(true)}
+              onMouseLeave={() => setCategoryDropdownOpen(false)}
+            >
+              <button className="nav-link flex items-center gap-2">
+                <TbCategoryPlus
+                  size={25}
+                  className={`transition-transform ${categoryDropdownOpen ? "rotate-180" : ""}`}
+                />
+                All Category
+              </button>
+
+              {categoryDropdownOpen && (
+                <div className="absolute top-full left-0 mt-4 w-64 bg-[var(--gray-100)] rounded-xl shadow-2xl border border-gray-700 py-3 animate-fadeIn">
+                  <div className="grid grid-cols-1">
+                    {categories.map((category) => (
+                      <Link
+                        key={category.name}
+                        href={category.href}
+                        className="px-6 py-3 hover:bg-black/30 transition-colors duration-200 group"
+                      >
+                        <span className="font-semibold text-white group-hover:text-[var(--primary)] text-sm">
+                          {category.name}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-10">
+              <Link href="/" className="nav-link">
+                Franchises
+              </Link>
+              <Link href="/about" className="nav-link">
+                About
+              </Link>
+              <Link href="/contact" className="nav-link">
+                Contact
+              </Link>
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`lg:hidden fixed inset-0 z-[100] transition-all duration-300 ease-in-out ${mobileMenuOpen
-            ? 'opacity-100 translate-x-0 visible'
-            : 'opacity-0 translate-x-full invisible pointer-events-none'
-          }`}
+        className={`lg:hidden fixed inset-0 z-[100] transition-all duration-300 ease-in-out ${
+          mobileMenuOpen
+            ? "opacity-100 translate-x-0 visible"
+            : "opacity-0 translate-x-full invisible pointer-events-none"
+        }`}
       >
         {/* Solid premium background */}
         <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0b0b0f] to-black" />
@@ -181,7 +191,9 @@ export default function Header() {
               <div className="w-10 h-10 bg-gradient-to-br from-[var(--primary)] to-[var(--secondary)] rounded-xl flex items-center justify-center text-black font-bold text-xl shadow-xl">
                 Z
               </div>
-              <span className="text-xl font-bold text-[var(--primary)]">Zarnith</span>
+              <span className="text-xl font-bold text-[var(--primary)]">
+                Zarnith
+              </span>
             </div>
             <button
               onClick={() => setMobileMenuOpen(false)}
@@ -207,7 +219,9 @@ export default function Header() {
                 className="group flex items-center justify-between p-4 rounded-xl bg-black/40 hover:bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="text-lg font-medium text-gray-200 group-hover:text-white">Home</span>
+                <span className="text-lg font-medium text-gray-200 group-hover:text-white">
+                  Home
+                </span>
                 <IconArrowRight
                   size={18}
                   className="text-[var(--primary)] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
@@ -221,26 +235,31 @@ export default function Header() {
                   className="w-full flex items-center justify-between p-4 text-left group"
                 >
                   <span
-                    className={`text-lg font-medium transition-colors ${categoryDropdownOpen
-                        ? 'text-[var(--primary)]'
-                        : 'text-gray-200 group-hover:text-white'
-                      }`}
+                    className={`text-lg font-medium transition-colors ${
+                      categoryDropdownOpen
+                        ? "text-[var(--primary)]"
+                        : "text-gray-200 group-hover:text-white"
+                    }`}
                   >
                     Collections
                   </span>
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center bg-white/10 transition-all duration-300 ${categoryDropdownOpen
-                        ? 'bg-[var(--primary)] text-black rotate-180'
-                        : 'text-gray-400 group-hover:text-white'
-                      }`}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center bg-white/10 transition-all duration-300 ${
+                      categoryDropdownOpen
+                        ? "bg-[var(--primary)] text-black rotate-180"
+                        : "text-gray-400 group-hover:text-white"
+                    }`}
                   >
                     <IconChevronDown size={18} />
                   </div>
                 </button>
 
                 <div
-                  className={`grid transition-all duration-300 ease-in-out ${categoryDropdownOpen ? 'grid-rows-[1fr] opacity-100 pb-4' : 'grid-rows-[0fr] opacity-0'
-                    }`}
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    categoryDropdownOpen
+                      ? "grid-rows-[1fr] opacity-100 pb-4"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
                 >
                   <div className="overflow-hidden">
                     <div className="grid grid-cols-2 gap-2 px-4 pt-2">
@@ -266,7 +285,9 @@ export default function Header() {
                 className="group flex items-center justify-between p-4 rounded-xl bg-black/40 hover:bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="text-lg font-medium text-gray-200 group-hover:text-white">About Us</span>
+                <span className="text-lg font-medium text-gray-200 group-hover:text-white">
+                  About Us
+                </span>
                 <IconArrowRight
                   size={18}
                   className="text-[var(--primary)] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
@@ -278,7 +299,9 @@ export default function Header() {
                 className="group flex items-center justify-between p-4 rounded-xl bg-black/40 hover:bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <span className="text-lg font-medium text-gray-200 group-hover:text-white">Contact</span>
+                <span className="text-lg font-medium text-gray-200 group-hover:text-white">
+                  Contact
+                </span>
                 <IconArrowRight
                   size={18}
                   className="text-[var(--primary)] opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
