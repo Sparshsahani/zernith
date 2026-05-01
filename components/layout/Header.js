@@ -131,7 +131,7 @@ export default function Header() {
               onMouseEnter={() => setCategoryDropdownOpen(true)}
               onMouseLeave={() => setCategoryDropdownOpen(false)}
             >
-              <button className="nav-link flex items-center gap-2">
+              <button className=" flex items-center gap-2">
                 <TbCategoryPlus
                   size={25}
                   className={`transition-transform ${categoryDropdownOpen ? "rotate-180" : ""}`}
